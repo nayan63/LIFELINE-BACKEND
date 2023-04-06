@@ -1,0 +1,29 @@
+server:
+  port: 9093
+
+spring:
+#  Application Name
+  application:
+    name: ADMIN-SERVICE
+#  MySQL Connection
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/lifeline
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: true
+        format_sql: true
+
+#Register with Eureka
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+

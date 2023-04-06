@@ -1,0 +1,46 @@
+server:
+  port: 9094
+
+#API Gateway Setting
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: ADMIN-SERVICE
+          uri: lb://ADMIN-SERVICE
+          predicates:
+            - Path=/admin/**
+          filters:
+            - APIGatewayFilter
+
+        - id: DOCTOR-SERVICE
+          uri: lb://DOCTOR-SERVICE
+          predicates:
+            - Path=/doctor/**
+          filters:
+            - APIGatewayFilter
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+            allowedHeaders:
+              - "Authorization"
+              - "Cache-Control"
+              - "Content-Type"
+            allowCredentials: true
+
+
+  main:
+    web-application-type: reactive
+
+  #Register with Eureka
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
